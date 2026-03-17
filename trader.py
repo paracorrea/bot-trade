@@ -116,3 +116,18 @@ class BinanceTrader:
             quantity=f"{quantity:.8f}"
         )
     
+    def get_open_orders(self):
+        return self.client.get_open_orders(symbol=SYMBOL)
+
+    def cancel_all_open_orders(self):
+        open_orders = self.get_open_orders()
+        canceled = []
+
+        for order in open_orders:
+            result = self.client.cancel_order(
+                symbol=SYMBOL,
+                orderId=order["orderId"]
+            )
+            canceled.append(result)
+
+        return canceled
